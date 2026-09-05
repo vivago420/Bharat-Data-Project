@@ -1,0 +1,107 @@
+[
+  {
+    "id": 1,
+    "name": "Dr. Rajendra Prasad",
+    "term_start": "26 January 1950",
+    "term_end": "13 May 1962",
+    "notable_fact": "First President of India and the only one to serve two full terms."
+  },
+  {
+    "id": 2,
+    "name": "Dr. Sarvepalli Radhakrishnan",
+    "term_start": "13 May 1962",
+    "term_end": "13 May 1967",
+    "notable_fact": "First Vice President to become President. His birthday is celebrated as Teacher's Day."
+  },
+  {
+    "id": 3,
+    "name": "Dr. Zakir Husain",
+    "term_start": "13 May 1967",
+    "term_end": "3 May 1969",
+    "notable_fact": "First President to die in office."
+  },
+  {
+    "id": 4,
+    "name": "Varahagiri Venkata Giri (V.V. Giri)",
+    "term_start": "24 August 1969",
+    "term_end": "24 August 1974",
+    "notable_fact": "Only person to have held office as both acting President and elected President."
+  },
+  {
+    "id": 5,
+    "name": "Fakhruddin Ali Ahmed",
+    "term_start": "24 August 1974",
+    "term_end": "11 February 1977",
+    "notable_fact": "Second President to die in office. Signed the proclamation of Emergency in 1975."
+  },
+  {
+    "id": 6,
+    "name": "Neelam Sanjiva Reddy",
+    "term_start": "25 July 1977",
+    "term_end": "25 July 1982",
+    "notable_fact": "Youngest President (until Droupadi Murmu) and the only one elected unopposed."
+  },
+  {
+    "id": 7,
+    "name": "Giani Zail Singh",
+    "term_start": "25 July 1982",
+    "term_end": "25 July 1987",
+    "notable_fact": "First Sikh President. Presidency marked by Operation Blue Star and the 1984 riots."
+  },
+  {
+    "id": 8,
+    "name": "Ramaswamy Venkataraman",
+    "term_start": "25 July 1987",
+    "term_end": "25 July 1992",
+    "notable_fact": "Served as Vice President before becoming President."
+  },
+  {
+    "id": 9,
+    "name": "Dr. Shankar Dayal Sharma",
+    "term_start": "25 July 1992",
+    "term_end": "25 July 1997",
+    "notable_fact": "Served as Chief Minister of Bhopal and held several cabinet portfolios before his presidency."
+  },
+  {
+    "id": 10,
+    "name": "K. R. Narayanan",
+    "term_start": "25 July 1997",
+    "term_end": "25 July 2002",
+    "notable_fact": "First Dalit President of India."
+  },
+  {
+    "id": 11,
+    "name": "Dr. A. P. J. Abdul Kalam",
+    "term_start": "25 July 2002",
+    "term_end": "25 July 2007",
+    "notable_fact": "Known as the 'Missile Man of India' and the first scientist to become President."
+  },
+  {
+    "id": 12,
+    "name": "Pratibha Devisingh Patil",
+    "term_start": "25 July 2007",
+    "term_end": "25 July 2012",
+    "notable_fact": "First woman President of India."
+  },
+  {
+    "id": 13,
+    "name": "Pranab Mukherjee",
+    "term_start": "25 July 2012",
+    "term_end": "25 July 2017",
+    "notable_fact": "Long-serving politician and former Finance Minister. Awarded the Bharat Ratna."
+  },
+  {
+    "id": 14,
+    "name": "Ram Nath Kovind",
+    "term_start": "25 July 2017",
+    "term_end": "25 July 2022",
+    "notable_fact": "Former Governor of Bihar and the second Dalit President."
+  },
+  {
+    "id": 15,
+    "name": "Droupadi Murmu",
+    "term_start": "25 July 2022",
+    "term_end": "Present",
+    "notable_fact": "First tribal woman to hold the highest constitutional office, and the youngest President upon taking office."
+  }
+]
