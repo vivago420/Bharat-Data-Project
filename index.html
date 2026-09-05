@@ -5,43 +5,79 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bharat Data Project</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f6f9;
+    body, html {
       margin: 0;
-      padding: 20px;
-      color: #333;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background-color: #000;
     }
+
+    /* Fixed Waving Indian Flag Background */
+    #bg-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/1/17/The_waving_Indian_flag.jpg') no-repeat center center;
+      background-size: cover;
+      opacity: 0.99; /* 99% initial visibility */
+      transition: opacity 0.8s ease-in-out;
+      z-index: -1;
+    }
+
+    #bg-image.dimmed {
+      opacity: 0.25; /* 25% visibility after clicking a button */
+    }
+
+    .content-wrapper {
+      position: relative;
+      padding: 20px;
+      z-index: 1;
+    }
+
     header {
       text-align: center;
       padding: 20px;
-      background: #0f2b48;
+      background: rgba(15, 43, 72, 0.85); /* Slightly transparent background for the header box */
       color: white;
       border-radius: 8px;
       margin-bottom: 20px;
     }
+    
     h1 { margin: 0 0 10px 0; }
     
-    /* Navigation Buttons */
+    /* Navigation Buttons with Hover and Lower Shadow Effect */
     .nav-tabs {
       text-align: center;
       margin-bottom: 30px;
     }
     .nav-tabs button {
-      background-color: #ff9933; /* Saffron color */
+      background-color: #ff9933; 
       color: white;
       border: none;
-      padding: 10px 20px;
+      padding: 12px 25px;
       margin: 0 10px;
-      font-size: 1rem;
+      font-size: 1.1rem;
       font-weight: bold;
       border-radius: 5px;
       cursor: pointer;
+      /* Heavy shadow on the lower side */
+      box-shadow: 0 6px 0px #cc7a29, 0 10px 15px rgba(0,0,0,0.4); 
+      transition: all 0.2s ease;
     }
     .nav-tabs button:hover {
       background-color: #e68a00;
+      transform: translateY(2px);
+      box-shadow: 0 4px 0px #cc7a29, 0 6px 10px rgba(0,0,0,0.4);
+    }
+    .nav-tabs button:active {
+      transform: translateY(6px);
+      box-shadow: 0 0px 0px #cc7a29, 0 2px 5px rgba(0,0,0,0.4);
     }
 
+    /* Cards Grid */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -50,11 +86,11 @@
       margin: 0 auto;
     }
     .card {
-      background: white;
+      background: rgba(255, 255, 255, 0.95);
       border-radius: 8px;
       padding: 20px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
-      border-left: 5px solid #138808; /* Green for cards */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+      border-left: 5px solid #138808;
     }
     .card h3 {
       margin-top: 0;
@@ -79,29 +115,50 @@
       font-weight: bold;
       color: #555;
     }
+    
+    /* Text styling for the initial 'Click a button' text */
+    #data-container p {
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+    }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Bharat Data Project</h1>
-    <p id="page-subtitle">Select a category below</p>
-  </header>
+  <!-- The Background Image -->
+  <div id="bg-image"></div>
 
-  <div class="nav-tabs">
-    <button onclick="loadPrimeMinisters()">Prime Ministers</button>
-    <button onclick="loadPresidents()">Presidents</button>
-  </div>
+  <!-- The Content on Top -->
+  <div class="content-wrapper">
+    <header>
+      <h1>Bharat Data Project</h1>
+      <p id="page-subtitle">Select a category below</p>
+    </header>
 
-  <div id="data-container" class="grid">
-    <p style="text-align:center; grid-column: 1 / -1;">Click a button above to load data.</p>
+    <div class="nav-tabs">
+      <button onclick="loadPrimeMinisters()">Prime Ministers</button>
+      <button onclick="loadPresidents()">Presidents</button>
+    </div>
+
+    <div id="data-container" class="grid">
+      <p style="text-align:center; grid-column: 1 / -1;">Click a button above to load data.</p>
+    </div>
   </div>
 
   <script>
     const container = document.getElementById('data-container');
     const subtitle = document.getElementById('page-subtitle');
+    const bgImage = document.getElementById('bg-image');
+
+    // This function runs when any button is clicked to dim the background
+    function dimBackground() {
+      bgImage.classList.add('dimmed');
+    }
 
     function loadPrimeMinisters() {
+      dimBackground();
       container.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Loading Prime Ministers...</p>';
       subtitle.innerText = "Prime Ministers of India (1947 – Present)";
       
@@ -129,6 +186,7 @@
     }
 
     function loadPresidents() {
+      dimBackground();
       container.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Loading Presidents...</p>';
       subtitle.innerText = "Presidents of India (1950 – Present)";
       
