@@ -18,11 +18,30 @@
       background: #0f2b48;
       color: white;
       border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    h1 { margin: 0 0 10px 0; }
+    
+    /* Navigation Buttons */
+    .nav-tabs {
+      text-align: center;
       margin-bottom: 30px;
     }
-    h1 {
-      margin: 0 0 10px 0;
+    .nav-tabs button {
+      background-color: #ff9933; /* Saffron color */
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 0 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
     }
+    .nav-tabs button:hover {
+      background-color: #e68a00;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -35,7 +54,7 @@
       border-radius: 8px;
       padding: 20px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
-      border-left: 5px solid #ff9933;
+      border-left: 5px solid #138808; /* Green for cards */
     }
     .card h3 {
       margin-top: 0;
@@ -66,38 +85,72 @@
 
   <header>
     <h1>Bharat Data Project</h1>
-    <p>Prime Ministers of India (1947 – Present)</p>
+    <p id="page-subtitle">Select a category below</p>
   </header>
 
-  <div id="pm-container" class="grid">
-    <p>Loading records...</p>
+  <div class="nav-tabs">
+    <button onclick="loadPrimeMinisters()">Prime Ministers</button>
+    <button onclick="loadPresidents()">Presidents</button>
+  </div>
+
+  <div id="data-container" class="grid">
+    <p style="text-align:center; grid-column: 1 / -1;">Click a button above to load data.</p>
   </div>
 
   <script>
-    fetch('prime_ministers.json')
-      .then(response => response.json())
-      .then(data => {
-        const container = document.getElementById('pm-container');
-        container.innerHTML = '';
+    const container = document.getElementById('data-container');
+    const subtitle = document.getElementById('page-subtitle');
 
-        data.forEach(pm => {
-          const card = document.createElement('div');
-          card.className = 'card';
-          card.innerHTML = `
-            <h3>#${pm.id} ${pm.name}</h3>
-            <div class="badge">${pm.party}</div>
-            <div class="detail"><span class="label">Term:</span> ${pm.term_start} &ndash; ${pm.term_end}</div>
-            <div class="detail"><span class="label">Seats Won:</span> ${pm.seats_won}</div>
-            <div class="detail"><span class="label">Total Lok Sabha Seats:</span> ${pm.total_seats}</div>
-            <div class="detail"><span class="label">Vote Share:</span> ${pm.vote_share}</div>
-          `;
-          container.appendChild(card);
+    function loadPrimeMinisters() {
+      container.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Loading Prime Ministers...</p>';
+      subtitle.innerText = "Prime Ministers of India (1947 – Present)";
+      
+      fetch('prime_ministers.json')
+        .then(response => response.json())
+        .then(data => {
+          container.innerHTML = '';
+          data.forEach(pm => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+              <h3>#${pm.id} ${pm.name}</h3>
+              <div class="badge">${pm.party}</div>
+              <div class="detail"><span class="label">Term:</span> ${pm.term_start} &ndash; ${pm.term_end}</div>
+              <div class="detail"><span class="label">Seats Won:</span> ${pm.seats_won}</div>
+              <div class="detail"><span class="label">Total Lok Sabha Seats:</span> ${pm.total_seats}</div>
+              <div class="detail"><span class="label">Vote Share:</span> ${pm.vote_share}</div>
+            `;
+            container.appendChild(card);
+          });
+        })
+        .catch(error => {
+          container.innerHTML = '<p>Error loading data.</p>';
         });
-      })
-      .catch(error => {
-        document.getElementById('pm-container').innerHTML = '<p>Error loading data.</p>';
-        console.error(error);
-      });
+    }
+
+    function loadPresidents() {
+      container.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Loading Presidents...</p>';
+      subtitle.innerText = "Presidents of India (1950 – Present)";
+      
+      fetch('presidents.json')
+        .then(response => response.json())
+        .then(data => {
+          container.innerHTML = '';
+          data.forEach(president => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+              <h3>#${president.id} ${president.name}</h3>
+              <div class="detail"><span class="label">Term:</span> ${president.term_start} &ndash; ${president.term_end}</div>
+              <div class="detail"><span class="label">Notable Fact:</span> ${president.notable_fact}</div>
+            `;
+            container.appendChild(card);
+          });
+        })
+        .catch(error => {
+          container.innerHTML = '<p>Error loading data.</p>';
+        });
+    }
   </script>
 
 </body>
