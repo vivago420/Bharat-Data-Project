@@ -37,7 +37,20 @@
       z-index: 10; 
     }
 
-    header {
+   header {
+      text-align: center;
+      padding: 20px;
+      /* Frosted glass effect instead of dark blue */
+      background: rgba(255, 255, 255, 0.15); 
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      /* Drop shadow on the text to keep it readable over the flag */
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+    } header {
       text-align: center;
       padding: 20px;
       background: rgba(15, 43, 72, 0.85);
