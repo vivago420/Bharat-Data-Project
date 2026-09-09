@@ -10,7 +10,7 @@
       padding: 0;
       height: 100%;
       font-family: Arial, sans-serif;
-      background-color: #000; /* Black background to make dimming look good */
+      background-color: #000;
     }
 
     #bg-image {
@@ -22,7 +22,6 @@
       object-fit: cover; 
       opacity: 0.99; 
       transition: opacity 0.8s ease-in-out;
-      /* FIXED: z-index is now 0 so the body color does not hide the image! */
       z-index: 0; 
     }
 
@@ -33,15 +32,14 @@
     .content-wrapper {
       position: relative;
       padding: 20px;
-      /* FIXED: Set to 10 so the buttons and cards sit safely on top */
       z-index: 10; 
     }
 
-   header {
+    header {
       text-align: center;
       padding: 20px;
-      background-color: rgba(255, 255, 255, 0.25); /* White background at 25% opacity */
-      color: black; /* Text stays fully opaque */
+      background-color: rgba(255, 255, 255, 0.25);
+      color: black;
       border-radius: 8px;
       margin-bottom: 20px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
@@ -49,16 +47,49 @@
     
     h1 { margin: 0 0 10px 0; }
     
-    .nav-tabs {
+    .category-section {
       text-align: center;
       margin-bottom: 30px;
     }
+
+    .main-btn {
+      background-color: #138808; 
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 6px 0px #0e6306, 0 10px 15px rgba(0,0,0,0.4); 
+      transition: all 0.2s ease;
+      margin-bottom: 15px;
+    }
+    .main-btn:hover {
+      background-color: #18a30b;
+      transform: translateY(2px);
+      box-shadow: 0 4px 0px #0e6306, 0 6px 10px rgba(0,0,0,0.4);
+    }
+    .main-btn:active {
+      transform: translateY(6px);
+      box-shadow: 0 0px 0px #0e6306, 0 2px 5px rgba(0,0,0,0.4);
+    }
+
+    .nav-tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .hidden {
+      display: none !important;
+    }
+    
     .nav-tabs button {
       background-color: #ff9933; 
       color: white;
       border: none;
       padding: 12px 25px;
-      margin: 5px 10px;
       font-size: 1.1rem;
       font-weight: bold;
       border-radius: 5px;
@@ -74,6 +105,22 @@
     .nav-tabs button:active {
       transform: translateY(6px);
       box-shadow: 0 0px 0px #cc7a29, 0 2px 5px rgba(0,0,0,0.4);
+    }
+
+    /* Simplified, Clean Loading Spinner */
+    .loader {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255, 153, 51, 0.2);
+      border-top: 5px solid #ff9933;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 40px auto;
+      grid-column: 1 / -1; /* Centers it perfectly in the grid */
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     .grid {
@@ -124,7 +171,6 @@
 </head>
 <body>
 
-  <!-- Using your locally uploaded finalflag.png -->
   <img id="bg-image" src="finalflag.png" alt="Indian Flag Background">
 
   <div class="content-wrapper">
@@ -133,14 +179,18 @@
       <p id="page-subtitle">Select a category below</p>
     </header>
 
-    <div class="nav-tabs">
-      <button onclick="loadPrimeMinisters()">Prime Ministers</button>
-      <button onclick="loadPresidents()">Presidents</button>
-      <button onclick="loadVicePresidents()">Vice Presidents</button>
+    <div class="category-section">
+      <button class="main-btn" onclick="toggleMenu('political-menu')">Indian Political History ▼</button>
+      
+      <div id="political-menu" class="nav-tabs hidden">
+        <button onclick="loadPrimeMinisters()">Prime Ministers</button>
+        <button onclick="loadPresidents()">Presidents</button>
+        <button onclick="loadVicePresidents()">Vice Presidents</button>
+      </div>
     </div>
 
     <div id="data-container" class="grid">
-      <p style="text-align:center; grid-column: 1 / -1;">Click a button above to load data.</p>
+      <p style="text-align:center; grid-column: 1 / -1;">Click a category above to load data.</p>
     </div>
   </div>
 
@@ -149,86 +199,97 @@
     const subtitle = document.getElementById('page-subtitle');
     const bgImage = document.getElementById('bg-image');
 
+    function toggleMenu(menuId) {
+      const menu = document.getElementById(menuId);
+      menu.classList.toggle('hidden');
+    }
+
     function dimBackground() {
       bgImage.classList.add('dimmed');
     }
 
     function loadPrimeMinisters() {
       dimBackground();
-      container.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Loading Prime Ministers...</p>';
       subtitle.innerText = "Prime Ministers of India (1947 – Present)";
+      container.innerHTML = '<div class="loader"></div>';
       
-      fetch('prime_ministers.json')
-        .then(response => response.json())
-        .then(data => {
-          container.innerHTML = '';
-          data.forEach(pm => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-              <h3>#${pm.id} ${pm.name}</h3>
-              <div class="badge">${pm.party}</div>
-              <div class="detail"><span class="label">Term:</span> ${pm.term_start} &ndash; ${pm.term_end}</div>
-              <div class="detail"><span class="label">Seats Won:</span> ${pm.seats_won}</div>
-              <div class="detail"><span class="label">Total Lok Sabha Seats:</span> ${pm.total_seats}</div>
-              <div class="detail"><span class="label">Vote Share:</span> ${pm.vote_share}</div>
-            `;
-            container.appendChild(card);
+      setTimeout(() => {
+        fetch('prime_ministers.json')
+          .then(response => response.json())
+          .then(data => {
+            container.innerHTML = '';
+            data.forEach(pm => {
+              const card = document.createElement('div');
+              card.className = 'card';
+              card.innerHTML = `
+                <h3>#${pm.id} ${pm.name}</h3>
+                <div class="badge">${pm.party}</div>
+                <div class="detail"><span class="label">Term:</span> ${pm.term_start} &ndash; ${pm.term_end}</div>
+                <div class="detail"><span class="label">Seats Won:</span> ${pm.seats_won}</div>
+                <div class="detail"><span class="label">Total Lok Sabha Seats:</span> ${pm.total_seats}</div>
+                <div class="detail"><span class="label">Vote Share:</span> ${pm.vote_share}</div>
+              `;
+              container.appendChild(card);
+            });
+          })
+          .catch(error => {
+            container.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Error loading data.</p>';
           });
-        })
-        .catch(error => {
-          container.innerHTML = '<p>Error loading data.</p>';
-        });
+      }, 1200);
     }
 
     function loadPresidents() {
       dimBackground();
-      container.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Loading Presidents...</p>';
       subtitle.innerText = "Presidents of India (1950 – Present)";
+      container.innerHTML = '<div class="loader"></div>';
       
-      fetch('presidents.json')
-        .then(response => response.json())
-        .then(data => {
-          container.innerHTML = '';
-          data.forEach(president => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-              <h3>#${president.id} ${president.name}</h3>
-              <div class="detail"><span class="label">Term:</span> ${president.term_start} &ndash; ${president.term_end}</div>
-              <div class="detail"><span class="label">Notable Fact:</span> ${president.notable_fact}</div>
-            `;
-            container.appendChild(card);
+      setTimeout(() => {
+        fetch('presidents.json')
+          .then(response => response.json())
+          .then(data => {
+            container.innerHTML = '';
+            data.forEach(president => {
+              const card = document.createElement('div');
+              card.className = 'card';
+              card.innerHTML = `
+                <h3>#${president.id} ${president.name}</h3>
+                <div class="detail"><span class="label">Term:</span> ${president.term_start} &ndash; ${president.term_end}</div>
+                <div class="detail"><span class="label">Notable Fact:</span> ${president.notable_fact}</div>
+              `;
+              container.appendChild(card);
+            });
+          })
+          .catch(error => {
+            container.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Error loading data.</p>';
           });
-        })
-        .catch(error => {
-          container.innerHTML = '<p>Error loading data.</p>';
-        });
+      }, 1200);
     }
 
     function loadVicePresidents() {
       dimBackground();
-      container.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Loading Vice Presidents...</p>';
       subtitle.innerText = "Vice Presidents of India (1952 – Present)";
+      container.innerHTML = '<div class="loader"></div>';
       
-      fetch('vice_presidents.json')
-        .then(response => response.json())
-        .then(data => {
-          container.innerHTML = '';
-          data.forEach(vp => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-              <h3>#${vp.id} ${vp.name}</h3>
-              <div class="detail"><span class="label">Term:</span> ${vp.term_start} &ndash; ${vp.term_end}</div>
-              <div class="detail"><span class="label">Notable Fact:</span> ${vp.notable_fact}</div>
-            `;
-            container.appendChild(card);
+      setTimeout(() => {
+        fetch('vice_presidents.json')
+          .then(response => response.json())
+          .then(data => {
+            container.innerHTML = '';
+            data.forEach(vp => {
+              const card = document.createElement('div');
+              card.className = 'card';
+              card.innerHTML = `
+                <h3>#${vp.id} ${vp.name}</h3>
+                <div class="detail"><span class="label">Term:</span> ${vp.term_start} &ndash; ${vp.term_end}</div>
+                <div class="detail"><span class="label">Notable Fact:</span> ${vp.notable_fact}</div>
+              `;
+              container.appendChild(card);
+            });
+          })
+          .catch(error => {
+            container.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Error loading data.</p>';
           });
-        })
-        .catch(error => {
-          container.innerHTML = '<p>Error loading data.</p>';
-        });
+      }, 1200);
     }
   </script>
 
