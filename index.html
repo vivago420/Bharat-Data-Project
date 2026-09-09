@@ -195,20 +195,21 @@
     </div>
   </div>
 
-  <script>
+ <script>
     const container = document.getElementById('data-container');
     const subtitle = document.getElementById('page-subtitle');
     const bgImage = document.getElementById('bg-image');
 
-   function toggleMenu(menuId) {
+    let activeCategory = ""; // Remembers what is currently on the screen
+
+    // Toggles the main dropdown menu
+    function toggleMenu(menuId) {
       const menu = document.getElementById(menuId);
       menu.classList.toggle('hidden');
       
-      // If the menu was just hidden, clear the screen and reset the background!
+      // Clear the screen if the menu is closed
       if (menu.classList.contains('hidden')) {
-        container.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Click a category above to load data.</p>';
-        subtitle.innerText = "Select a category below";
-        bgImage.classList.remove('dimmed'); // Makes the flag bright again
+        clearScreen();
       }
     }
 
@@ -216,27 +217,37 @@
       bgImage.classList.add('dimmed');
     }
 
-    function loadPrimeMinisters() {
+    // A reusable function to clear the screen
+    function clearScreen() {
+      container.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Click a category above to load data.</p>';
+      subtitle.innerText = "Select a category below";
+      bgImage.classList.remove('dimmed');
+      activeCategory = "";
+    }
+
+    // THE MASTER FUNCTION FOR ALL CURRENT AND FUTURE BUTTONS
+    function loadCategoryData(categoryName, title, jsonFile, formatItem) {
+      // 1. If clicking the same button twice, turn it off!
+      if (activeCategory === categoryName) {
+        clearScreen();
+        return;
+      }
+
+      // 2. Otherwise, load the new data with the animation
+      activeCategory = categoryName;
       dimBackground();
-      subtitle.innerText = "Prime Ministers of India (1947 – Present)";
+      subtitle.innerText = title;
       container.innerHTML = '<div class="loader"></div>';
-      
+
       setTimeout(() => {
-        fetch('prime_ministers.json')
+        fetch(jsonFile)
           .then(response => response.json())
           .then(data => {
             container.innerHTML = '';
-            data.forEach(pm => {
+            data.forEach(item => {
               const card = document.createElement('div');
               card.className = 'card';
-              card.innerHTML = `
-                <h3>#${pm.id} ${pm.name}</h3>
-                <div class="badge">${pm.party}</div>
-                <div class="detail"><span class="label">Term:</span> ${pm.term_start} &ndash; ${pm.term_end}</div>
-                <div class="detail"><span class="label">Seats Won:</span> ${pm.seats_won}</div>
-                <div class="detail"><span class="label">Total Lok Sabha Seats:</span> ${pm.total_seats}</div>
-                <div class="detail"><span class="label">Vote Share:</span> ${pm.vote_share}</div>
-              `;
+              card.innerHTML = formatItem(item);
               container.appendChild(card);
             });
           })
@@ -245,88 +256,44 @@
           });
       }, 1200);
     }
-    function loadDeputyPrimeMinisters() {
-      dimBackground();
-      subtitle.innerText = "Deputy Prime Ministers of India";
-      container.innerHTML = '<div class="loader"></div>';
-      
-      setTimeout(() => {
-        fetch('deputy_prime_ministers.json')
-          .then(response => response.json())
-          .then(data => {
-            container.innerHTML = '';
-            data.forEach(dpm => {
-              const card = document.createElement('div');
-              card.className = 'card';
-              card.innerHTML = `
-                <h3>#${dpm.id} ${dpm.name}</h3>
-                <div class="badge">${dpm.party}</div>
-                <div class="detail"><span class="label">Term:</span> ${dpm.term_start} &ndash; ${dpm.term_end}</div>
-                <div class="detail"><span class="label">Notable Fact:</span> ${dpm.notable_fact}</div>
-              `;
-              container.appendChild(card);
-            });
-          })
-          .catch(error => {
-            container.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Error loading data.</p>';
-          });
-      }, 1200);
+
+    // --- YOUR BUTTON FUNCTIONS ARE NOW INCREDIBLY SHORT! ---
+
+    function loadPrimeMinisters() {
+      loadCategoryData('PM', "Prime Ministers of India (1947 – Present)", 'prime_ministers.json', (pm) => `
+          <h3>#${pm.id} ${pm.name}</h3>
+          <div class="badge">${pm.party}</div>
+          <div class="detail"><span class="label">Term:</span> ${pm.term_start} &ndash; ${pm.term_end}</div>
+          <div class="detail"><span class="label">Seats Won:</span> ${pm.seats_won}</div>
+          <div class="detail"><span class="label">Total Lok Sabha Seats:</span> ${pm.total_seats}</div>
+          <div class="detail"><span class="label">Vote Share:</span> ${pm.vote_share}</div>
+      `);
     }
 
     function loadPresidents() {
-      dimBackground();
-      subtitle.innerText = "Presidents of India (1950 – Present)";
-      container.innerHTML = '<div class="loader"></div>';
-      
-      setTimeout(() => {
-        fetch('presidents.json')
-          .then(response => response.json())
-          .then(data => {
-            container.innerHTML = '';
-            data.forEach(president => {
-              const card = document.createElement('div');
-              card.className = 'card';
-              card.innerHTML = `
-                <h3>#${president.id} ${president.name}</h3>
-                <div class="detail"><span class="label">Term:</span> ${president.term_start} &ndash; ${president.term_end}</div>
-                <div class="detail"><span class="label">Notable Fact:</span> ${president.notable_fact}</div>
-              `;
-              container.appendChild(card);
-            });
-          })
-          .catch(error => {
-            container.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Error loading data.</p>';
-          });
-      }, 1200);
+      loadCategoryData('Pres', "Presidents of India (1950 – Present)", 'presidents.json', (p) => `
+          <h3>#${p.id} ${p.name}</h3>
+          <div class="detail"><span class="label">Term:</span> ${p.term_start} &ndash; ${p.term_end}</div>
+          <div class="detail"><span class="label">Notable Fact:</span> ${p.notable_fact}</div>
+      `);
     }
 
     function loadVicePresidents() {
-      dimBackground();
-      subtitle.innerText = "Vice Presidents of India (1952 – Present)";
-      container.innerHTML = '<div class="loader"></div>';
-      
-      setTimeout(() => {
-        fetch('vice_presidents.json')
-          .then(response => response.json())
-          .then(data => {
-            container.innerHTML = '';
-            data.forEach(vp => {
-              const card = document.createElement('div');
-              card.className = 'card';
-              card.innerHTML = `
-                <h3>#${vp.id} ${vp.name}</h3>
-                <div class="detail"><span class="label">Term:</span> ${vp.term_start} &ndash; ${vp.term_end}</div>
-                <div class="detail"><span class="label">Notable Fact:</span> ${vp.notable_fact}</div>
-              `;
-              container.appendChild(card);
-            });
-          })
-          .catch(error => {
-            container.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Error loading data.</p>';
-          });
-      }, 1200);
+      loadCategoryData('VP', "Vice Presidents of India (1952 – Present)", 'vice_presidents.json', (vp) => `
+          <h3>#${vp.id} ${vp.name}</h3>
+          <div class="detail"><span class="label">Term:</span> ${vp.term_start} &ndash; ${vp.term_end}</div>
+          <div class="detail"><span class="label">Notable Fact:</span> ${vp.notable_fact}</div>
+      `);
+    }
+
+    function loadDeputyPrimeMinisters() {
+      loadCategoryData('DPM', "Deputy Prime Ministers of India", 'deputy_prime_ministers.json', (dpm) => `
+          <h3>#${dpm.id} ${dpm.name}</h3>
+          <div class="badge">${dpm.party}</div>
+          <div class="detail"><span class="label">Term:</span> ${dpm.term_start} &ndash; ${dpm.term_end}</div>
+          <div class="detail"><span class="label">Notable Fact:</span> ${dpm.notable_fact}</div>
+      `);
     }
   </script>
-
 </body>
 </html>
