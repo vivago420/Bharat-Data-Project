@@ -184,6 +184,7 @@
       
       <div id="political-menu" class="nav-tabs hidden">
         <button onclick="loadPrimeMinisters()">Prime Ministers</button>
+        <button onclick="loadDeputyPrimeMinisters()">Deputy PMs</button>
         <button onclick="loadPresidents()">Presidents</button>
         <button onclick="loadVicePresidents()">Vice Presidents</button>
       </div>
@@ -228,6 +229,33 @@
                 <div class="detail"><span class="label">Seats Won:</span> ${pm.seats_won}</div>
                 <div class="detail"><span class="label">Total Lok Sabha Seats:</span> ${pm.total_seats}</div>
                 <div class="detail"><span class="label">Vote Share:</span> ${pm.vote_share}</div>
+              `;
+              container.appendChild(card);
+            });
+          })
+          .catch(error => {
+            container.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Error loading data.</p>';
+          });
+      }, 1200);
+    }
+    function loadDeputyPrimeMinisters() {
+      dimBackground();
+      subtitle.innerText = "Deputy Prime Ministers of India";
+      container.innerHTML = '<div class="loader"></div>';
+      
+      setTimeout(() => {
+        fetch('deputy_prime_ministers.json')
+          .then(response => response.json())
+          .then(data => {
+            container.innerHTML = '';
+            data.forEach(dpm => {
+              const card = document.createElement('div');
+              card.className = 'card';
+              card.innerHTML = `
+                <h3>#${dpm.id} ${dpm.name}</h3>
+                <div class="badge">${dpm.party}</div>
+                <div class="detail"><span class="label">Term:</span> ${dpm.term_start} &ndash; ${dpm.term_end}</div>
+                <div class="detail"><span class="label">Notable Fact:</span> ${dpm.notable_fact}</div>
               `;
               container.appendChild(card);
             });
