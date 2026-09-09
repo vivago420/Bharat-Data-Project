@@ -200,9 +200,16 @@
     const subtitle = document.getElementById('page-subtitle');
     const bgImage = document.getElementById('bg-image');
 
-    function toggleMenu(menuId) {
+   function toggleMenu(menuId) {
       const menu = document.getElementById(menuId);
       menu.classList.toggle('hidden');
+      
+      // If the menu was just hidden, clear the screen and reset the background!
+      if (menu.classList.contains('hidden')) {
+        container.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Click a category above to load data.</p>';
+        subtitle.innerText = "Select a category below";
+        bgImage.classList.remove('dimmed'); // Makes the flag bright again
+      }
     }
 
     function dimBackground() {
