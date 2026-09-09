@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "name": "Sardar Vallabhbhai Patel",
+    "term_start": "15 August 1947",
+    "term_end": "15 December 1950",
+    "party": "Indian National Congress",
+    "notable_fact": "The first Deputy Prime Minister and 'Iron Man of India'."
+  },
+  {
+    "id": 2,
+    "name": "Morarji Desai",
+    "term_start": "13 March 1967",
+    "term_end": "19 July 1969",
+    "party": "Indian National Congress",
+    "notable_fact": "Later became the first non-Congress Prime Minister of India."
+  },
+  {
+    "id": 3,
+    "name": "Charan Singh",
+    "term_start": "24 January 1979",
+    "term_end": "28 July 1979",
+    "party": "Janata Party",
+    "notable_fact": "Shared the post with Jagjivan Ram under PM Morarji Desai."
+  },
+  {
+    "id": 4,
+    "name": "Jagjivan Ram",
+    "term_start": "24 January 1979",
+    "term_end": "28 July 1979",
+    "party": "Janata Party",
+    "notable_fact": "Holds the record for being the longest-serving cabinet minister in India."
+  },
+  {
+    "id": 5,
+    "name": "Y. B. Chavan",
+    "term_start": "28 July 1979",
+    "term_end": "14 January 1980",
+    "party": "Indian National Congress (Urs)",
+    "notable_fact": "Served during the short-lived Charan Singh government."
+  },
+  {
+    "id": 6,
+    "name": "Devi Lal",
+    "term_start": "2 December 1989",
+    "term_end": "21 June 1991",
+    "party": "Janata Dal",
+    "notable_fact": "Served under two different Prime Ministers (V.P. Singh and Chandra Shekhar)."
+  },
+  {
+    "id": 7,
+    "name": "L. K. Advani",
+    "term_start": "29 June 2002",
+    "term_end": "22 May 2004",
+    "party": "Bharatiya Janata Party",
+    "notable_fact": "The 7th and most recent Deputy Prime Minister of India."
+  }
+]
