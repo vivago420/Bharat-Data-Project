@@ -207,6 +207,21 @@
       flex-wrap: wrap;
       gap: 4px;
     }
+    /* Add this inside your <style> tag */
+.info-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.9); /* Slight transparency so your background image still shows */
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 15px; /* Adds space between tiles */
+}
+
+/* The hover effect */
+.info-card:hover {
+    transform: translateY(-5px); /* Lifts the card up slightly */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Adds a deeper shadow on hover */
+    background-color: #ffffff; /* Turns solid white on hover for focus */
+}
     .badge {
       display: inline-block;
       background: #eef2f7;
