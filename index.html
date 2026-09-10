@@ -4,14 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bharat Data Project</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
   <style>
+    :root {
+      --saffron: #ff9933;
+      --saffron-dark: #cc7a29;
+      --green: #138808;
+      --green-dark: #0e6306;
+      --card-radius: 14px;
+    }
+
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       background-color: #000;
     }
+
+    h1 { margin: 0 0 10px 0; font-family: 'Poppins', sans-serif; }
 
     #bg-image {
       position: fixed;
@@ -19,20 +33,20 @@
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover; 
-      opacity: 0.99; 
+      object-fit: cover;
+      opacity: 0.99;
       transition: opacity 0.8s ease-in-out;
-      z-index: 0; 
+      z-index: 0;
     }
 
     #bg-image.dimmed {
-      opacity: 0.25; 
+      opacity: 0.25;
     }
 
     .content-wrapper {
       position: relative;
       padding: 20px;
-      z-index: 10; 
+      z-index: 10;
     }
 
     header {
@@ -44,16 +58,14 @@
       margin-bottom: 20px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     }
-    
-    h1 { margin: 0 0 10px 0; }
-    
+
     .category-section {
       text-align: center;
       margin-bottom: 30px;
     }
 
     .main-btn {
-      background-color: #138808; 
+      background-color: var(--green);
       color: white;
       border: none;
       padding: 15px 30px;
@@ -61,18 +73,18 @@
       font-weight: bold;
       border-radius: 5px;
       cursor: pointer;
-      box-shadow: 0 6px 0px #0e6306, 0 10px 15px rgba(0,0,0,0.4); 
+      box-shadow: 0 6px 0px var(--green-dark), 0 10px 15px rgba(0,0,0,0.4);
       transition: all 0.2s ease;
       margin-bottom: 15px;
     }
     .main-btn:hover {
       background-color: #18a30b;
       transform: translateY(2px);
-      box-shadow: 0 4px 0px #0e6306, 0 6px 10px rgba(0,0,0,0.4);
+      box-shadow: 0 4px 0px var(--green-dark), 0 6px 10px rgba(0,0,0,0.4);
     }
     .main-btn:active {
       transform: translateY(6px);
-      box-shadow: 0 0px 0px #0e6306, 0 2px 5px rgba(0,0,0,0.4);
+      box-shadow: 0 0px 0px var(--green-dark), 0 2px 5px rgba(0,0,0,0.4);
     }
 
     .nav-tabs {
@@ -80,13 +92,22 @@
       justify-content: center;
       flex-wrap: wrap;
       gap: 10px;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.35s ease, opacity 0.3s ease;
+    }
+    .nav-tabs.open {
+      max-height: 200px;
+      opacity: 1;
+      margin-top: 10px;
     }
     .hidden {
       display: none !important;
     }
-    
+
     .nav-tabs button {
-      background-color: #ff9933; 
+      background-color: var(--saffron);
       color: white;
       border: none;
       padding: 12px 25px;
@@ -94,33 +115,42 @@
       font-weight: bold;
       border-radius: 5px;
       cursor: pointer;
-      box-shadow: 0 6px 0px #cc7a29, 0 10px 15px rgba(0,0,0,0.4); 
+      box-shadow: 0 6px 0px var(--saffron-dark), 0 10px 15px rgba(0,0,0,0.4);
       transition: all 0.2s ease;
     }
     .nav-tabs button:hover {
       background-color: #e68a00;
       transform: translateY(2px);
-      box-shadow: 0 4px 0px #cc7a29, 0 6px 10px rgba(0,0,0,0.4);
+      box-shadow: 0 4px 0px var(--saffron-dark), 0 6px 10px rgba(0,0,0,0.4);
     }
     .nav-tabs button:active {
       transform: translateY(6px);
-      box-shadow: 0 0px 0px #cc7a29, 0 2px 5px rgba(0,0,0,0.4);
+      box-shadow: 0 0px 0px var(--saffron-dark), 0 2px 5px rgba(0,0,0,0.4);
+    }
+    .nav-tabs button.active {
+      background-color: var(--green);
+      box-shadow: 0 4px 0px var(--green-dark), 0 6px 10px rgba(0,0,0,0.4);
+      transform: translateY(2px);
     }
 
-    /* Simplified, Clean Loading Spinner */
-    .loader {
-      width: 50px;
-      height: 50px;
-      border: 5px solid rgba(255, 153, 51, 0.2);
-      border-top: 5px solid #ff9933;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 40px auto;
-      grid-column: 1 / -1; /* Centers it perfectly in the grid */
+    /* Skeleton loader */
+    .skeleton-card {
+      background: rgba(255,255,255,0.15);
+      border-radius: var(--card-radius);
+      height: 140px;
+      overflow: hidden;
+      position: relative;
     }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .skeleton-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      animation: shimmer 1.4s infinite;
+    }
+    @keyframes shimmer {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(100%); }
     }
 
     .grid {
@@ -130,16 +160,52 @@
       max-width: 1200px;
       margin: 0 auto;
     }
+
     .card {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: var(--card-radius);
       padding: 20px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-      border-left: 5px solid #138808;
+      border-left: 5px solid var(--green);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      opacity: 0;
+      animation: cardIn 0.5s ease forwards;
     }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25);
+    }
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Currently serving highlight */
+    .card.current {
+      border-left: 5px solid var(--saffron);
+      box-shadow: 0 4px 10px rgba(255, 153, 51, 0.35);
+    }
+    .current-badge {
+      display: inline-block;
+      background: var(--saffron);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 3px 9px;
+      border-radius: 20px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
     .card h3 {
       margin-top: 0;
       color: #1a1a1a;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
     }
     .badge {
       display: inline-block;
@@ -160,18 +226,53 @@
       font-weight: bold;
       color: #555;
     }
-    
+
+    /* Election history mini-table for multi-term leaders */
+    .term-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.85rem;
+    }
+    .term-table caption {
+      text-align: left;
+      font-weight: bold;
+      color: #555;
+      margin-bottom: 4px;
+      font-size: 0.85rem;
+    }
+    .term-table th {
+      text-align: left;
+      color: #666;
+      font-weight: 600;
+      padding: 4px 6px;
+      border-bottom: 2px solid #ddd;
+    }
+    .term-table td {
+      padding: 5px 6px;
+      border-bottom: 1px solid #eee;
+      color: #222;
+    }
+    .term-table tr:last-child td {
+      border-bottom: none;
+    }
+
     #data-container p {
       color: white;
       font-size: 1.2rem;
       font-weight: bold;
       text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card, .skeleton-card::after { animation: none !important; opacity: 1; }
+      .nav-tabs { transition: none; }
+    }
   </style>
 </head>
 <body>
 
-  <img id="bg-image" src="finalflag.png" alt="Indian Flag Background">
+  <img id="bg-image" src="INDflag1.png" alt="Indian Flag Background">
 
   <div class="content-wrapper">
     <header>
@@ -181,7 +282,7 @@
 
     <div class="category-section">
       <button class="main-btn" onclick="toggleMenu('political-menu')">Indian Political History ▼</button>
-      
+
       <div id="political-menu" class="nav-tabs hidden">
         <button onclick="loadPrimeMinisters()">Prime Ministers</button>
         <button onclick="loadDeputyPrimeMinisters()">Deputy PMs</button>
@@ -200,14 +301,13 @@
     const subtitle = document.getElementById('page-subtitle');
     const bgImage = document.getElementById('bg-image');
 
-    let activeCategory = ""; // Remembers what is currently on the screen
+    let activeCategory = "";
 
-    // Toggles the main dropdown menu
     function toggleMenu(menuId) {
       const menu = document.getElementById(menuId);
       menu.classList.toggle('hidden');
-      
-      // Clear the screen if the menu is closed
+      requestAnimationFrame(() => menu.classList.toggle('open'));
+
       if (menu.classList.contains('hidden')) {
         clearScreen();
       }
@@ -217,37 +317,93 @@
       bgImage.classList.add('dimmed');
     }
 
-    // A reusable function to clear the screen
     function clearScreen() {
       container.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">Click a category above to load data.</p>';
       subtitle.innerText = "Select a category below";
       bgImage.classList.remove('dimmed');
       activeCategory = "";
+      document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('active'));
     }
 
-    // THE MASTER FUNCTION FOR ALL CURRENT AND FUTURE BUTTONS
+    function setActiveButton(categoryName) {
+      const map = { PM: 0, DPM: 1, Pres: 2, VP: 3 };
+      const btns = document.querySelectorAll('#political-menu button');
+      btns.forEach(b => b.classList.remove('active'));
+      if (map[categoryName] !== undefined) btns[map[categoryName]].classList.add('active');
+    }
+
+    function isCurrent(termEnd) {
+      return typeof termEnd === 'string' && termEnd.trim().toLowerCase() === 'present';
+    }
+
+    function parseYearSeries(field) {
+      if (!field) return null;
+      const parts = field.split(',').map(s => s.trim());
+      const parsed = parts.map(p => {
+        const match = p.match(/^(.+?)\s*\((\d{4})\)$/);
+        return match ? { value: match[1].trim(), year: match[2] } : null;
+      });
+      return parsed.every(p => p !== null) && parsed.length > 1 ? parsed : null;
+    }
+
+    function renderElectionHistory(pm) {
+      const seats = parseYearSeries(pm.seats_won);
+      const totals = parseYearSeries(pm.total_seats);
+      const votes = parseYearSeries(pm.vote_share);
+
+      if (seats && totals && votes &&
+          seats.length === totals.length && seats.length === votes.length) {
+        const rows = seats.map((s, i) => `
+          <tr>
+            <td>${s.year}</td>
+            <td>${s.value}</td>
+            <td>${totals[i].value}</td>
+            <td>${votes[i].value}</td>
+          </tr>
+        `).join('');
+
+        return `
+          <table class="term-table">
+            <caption>Election Results</caption>
+            <thead>
+              <tr><th>Year</th><th>Seats Won</th><th>Total Seats</th><th>Vote Share</th></tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        `;
+      }
+
+      return `
+        <div class="detail"><span class="label">Seats Won:</span> ${pm.seats_won}</div>
+        <div class="detail"><span class="label">Total Lok Sabha Seats:</span> ${pm.total_seats}</div>
+        <div class="detail"><span class="label">Vote Share:</span> ${pm.vote_share}</div>
+      `;
+    }
+
     function loadCategoryData(categoryName, title, jsonFile, formatItem) {
-      // 1. If clicking the same button twice, turn it off!
       if (activeCategory === categoryName) {
         clearScreen();
         return;
       }
 
-      // 2. Otherwise, load the new data with the animation
       activeCategory = categoryName;
       dimBackground();
       subtitle.innerText = title;
-      container.innerHTML = '<div class="loader"></div>';
+      setActiveButton(categoryName);
+
+      container.innerHTML = Array(6).fill('<div class="skeleton-card"></div>').join('');
 
       setTimeout(() => {
         fetch(jsonFile)
           .then(response => response.json())
           .then(data => {
             container.innerHTML = '';
-            data.forEach(item => {
+            data.forEach((item, i) => {
               const card = document.createElement('div');
-              card.className = 'card';
-              card.innerHTML = formatItem(item);
+              const current = isCurrent(item.term_end);
+              card.className = 'card' + (current ? ' current' : '');
+              card.style.animationDelay = `${i * 80}ms`;
+              card.innerHTML = formatItem(item, current);
               container.appendChild(card);
             });
           })
@@ -257,38 +413,34 @@
       }, 1200);
     }
 
-    // --- YOUR BUTTON FUNCTIONS ARE NOW INCREDIBLY SHORT! ---
-
     function loadPrimeMinisters() {
-      loadCategoryData('PM', "Prime Ministers of India (1947 – Present)", 'prime_ministers.json', (pm) => `
-          <h3>#${pm.id} ${pm.name}</h3>
+      loadCategoryData('PM', "Prime Ministers of India (1947 – Present)", 'prime_ministers.json', (pm, current) => `
+          <h3>#${pm.id} ${pm.name}${current ? '<span class="current-badge">Currently Serving</span>' : ''}</h3>
           <div class="badge">${pm.party}</div>
           <div class="detail"><span class="label">Term:</span> ${pm.term_start} &ndash; ${pm.term_end}</div>
-          <div class="detail"><span class="label">Seats Won:</span> ${pm.seats_won}</div>
-          <div class="detail"><span class="label">Total Lok Sabha Seats:</span> ${pm.total_seats}</div>
-          <div class="detail"><span class="label">Vote Share:</span> ${pm.vote_share}</div>
+          ${renderElectionHistory(pm)}
       `);
     }
 
     function loadPresidents() {
-      loadCategoryData('Pres', "Presidents of India (1950 – Present)", 'presidents.json', (p) => `
-          <h3>#${p.id} ${p.name}</h3>
+      loadCategoryData('Pres', "Presidents of India (1950 – Present)", 'presidents.json', (p, current) => `
+          <h3>#${p.id} ${p.name}${current ? '<span class="current-badge">Currently Serving</span>' : ''}</h3>
           <div class="detail"><span class="label">Term:</span> ${p.term_start} &ndash; ${p.term_end}</div>
           <div class="detail"><span class="label">Notable Fact:</span> ${p.notable_fact}</div>
       `);
     }
 
     function loadVicePresidents() {
-      loadCategoryData('VP', "Vice Presidents of India (1952 – Present)", 'vice_presidents.json', (vp) => `
-          <h3>#${vp.id} ${vp.name}</h3>
+      loadCategoryData('VP', "Vice Presidents of India (1952 – Present)", 'vice_presidents.json', (vp, current) => `
+          <h3>#${vp.id} ${vp.name}${current ? '<span class="current-badge">Currently Serving</span>' : ''}</h3>
           <div class="detail"><span class="label">Term:</span> ${vp.term_start} &ndash; ${vp.term_end}</div>
           <div class="detail"><span class="label">Notable Fact:</span> ${vp.notable_fact}</div>
       `);
     }
 
     function loadDeputyPrimeMinisters() {
-      loadCategoryData('DPM', "Deputy Prime Ministers of India", 'deputy_prime_ministers.json', (dpm) => `
-          <h3>#${dpm.id} ${dpm.name}</h3>
+      loadCategoryData('DPM', "Deputy Prime Ministers of India", 'deputy_prime_ministers.json', (dpm, current) => `
+          <h3>#${dpm.id} ${dpm.name}${current ? '<span class="current-badge">Currently Serving</span>' : ''}</h3>
           <div class="badge">${dpm.party}</div>
           <div class="detail"><span class="label">Term:</span> ${dpm.term_start} &ndash; ${dpm.term_end}</div>
           <div class="detail"><span class="label">Notable Fact:</span> ${dpm.notable_fact}</div>
